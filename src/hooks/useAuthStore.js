@@ -31,7 +31,7 @@ export const useAuthStore = () => {
 
       setTimeout(() => {
         dispatch(clearErrorMessage());
-      }, 1800);
+      }, 180);
     }
   };
 
@@ -45,13 +45,20 @@ export const useAuthStore = () => {
         password,
       });
 
+      // lo Auth inmediatamente. Podria ser un email de confirmacion
+      const { data: loginData } = await calendarApi.post('/auth/login', {
+        email,
+        password,
+      });
+      localStorage.setItem('token', loginData.token);
+      localStorage.setItem('token-init-date', new Date().getTime());
       dispatch(onLogin(data.user));
     } catch (error) {
       dispatch(onLogout(error.response.data.errors.email.msg));
 
       setTimeout(() => {
         dispatch(clearErrorMessage());
-      }, 1800);
+      }, 180);
     }
   };
 
