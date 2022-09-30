@@ -21,6 +21,7 @@ export const LoginPage = () => {
     loginEmail,
     loginPassword,
     handleInputChange: onLoginInputChange,
+    formValues: lformValues,
   } = useForm(loginFormFields);
 
   const {
@@ -29,6 +30,7 @@ export const LoginPage = () => {
     registerPassword,
     registerPassword2,
     handleInputChange: onRegisterInputChange,
+    formValues: rformValues,
   } = useForm(registerFormFields);
 
   useEffect(() => {
@@ -38,12 +40,14 @@ export const LoginPage = () => {
 
   const handleLoginSubmit = async e => {
     e.preventDefault();
+    if (Object.values(lformValues).some(field => !field)) return;
 
     await startLogin({ email: loginEmail, password: loginPassword });
   };
 
   const handleRegisterSubmit = async e => {
     e.preventDefault();
+    if (Object.values(rformValues).some(field => !field)) return;
 
     await startRegister({
       name: registerName,
